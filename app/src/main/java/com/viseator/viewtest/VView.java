@@ -72,12 +72,10 @@ public class VView extends LinearLayout implements ValueAnimator.AnimatorUpdateL
     }
 
     void init(int start, int end) {
-//        animator = ValueAnimator.ofObject(new MyTypeEvaluator(), start, end);
         animator = ValueAnimator.ofInt(start, end);
         animator.setDuration(1000);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setRepeatMode(ValueAnimator.RESTART);
-//        ValueAnimator.setFrameDelay(1000);
         animator.setInterpolator(new AccelerateInterpolator(rate));
         animator.addUpdateListener(this);
         animator.addListener(this);
@@ -101,17 +99,14 @@ public class VView extends LinearLayout implements ValueAnimator.AnimatorUpdateL
     @Override
     public void onAnimationRepeat(Animator animation) {
         ValueAnimator vAnimation = (ValueAnimator) animation;
-//        vAnimation.setCurrentFraction(0f);
         if (isDown) {
             animationHeight = (int) (animationHeight * 0.5);
         }
         isDown = !isDown;
         if (isDown) {
-            Log.d(TAG, "isDown: " + String.valueOf(animationHeight) + " " + String.valueOf(canvasHeight));
             vAnimation.setIntValues(canvasHeight - animationHeight, canvasHeight);
             vAnimation.setInterpolator(new AccelerateInterpolator(rate));
         } else {
-            Log.d(TAG, "isUp: " + String.valueOf(canvasHeight) + " " + String.valueOf(animationHeight));
             vAnimation.setIntValues(canvasHeight, canvasHeight - animationHeight);
             vAnimation.setInterpolator(new DecelerateInterpolator(rate));
         }
