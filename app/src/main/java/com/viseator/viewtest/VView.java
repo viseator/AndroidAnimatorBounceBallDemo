@@ -7,7 +7,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -19,10 +18,10 @@ import android.widget.LinearLayout;
  * Email: viseator@gmail.com
  */
 
-public class VView extends LinearLayout implements ValueAnimator.AnimatorUpdateListener, View.OnClickListener, Animator.AnimatorListener {
+public class VView extends LinearLayout implements ValueAnimator.AnimatorUpdateListener,
+        View.OnClickListener, Animator.AnimatorListener {
     private static final String TAG = "@vir VView";
     public static final int radius = 50;
-    public static final float rate = 1f;
     private int xPos = radius;
     private int yPos = radius;
     private Paint paint = new Paint();
@@ -76,11 +75,9 @@ public class VView extends LinearLayout implements ValueAnimator.AnimatorUpdateL
         animator.setDuration(1000);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setRepeatMode(ValueAnimator.RESTART);
-        animator.setInterpolator(new AccelerateInterpolator(rate));
+        animator.setInterpolator(new AccelerateInterpolator());
         animator.addUpdateListener(this);
         animator.addListener(this);
-
-
     }
 
 
@@ -105,10 +102,10 @@ public class VView extends LinearLayout implements ValueAnimator.AnimatorUpdateL
         isDown = !isDown;
         if (isDown) {
             vAnimation.setIntValues(canvasHeight - animationHeight, canvasHeight);
-            vAnimation.setInterpolator(new AccelerateInterpolator(rate));
+            vAnimation.setInterpolator(new AccelerateInterpolator());
         } else {
             vAnimation.setIntValues(canvasHeight, canvasHeight - animationHeight);
-            vAnimation.setInterpolator(new DecelerateInterpolator(rate));
+            vAnimation.setInterpolator(new DecelerateInterpolator());
         }
     }
 
