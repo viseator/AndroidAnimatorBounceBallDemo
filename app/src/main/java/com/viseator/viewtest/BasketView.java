@@ -6,11 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.RegionIterator;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -20,11 +21,14 @@ import android.view.View;
  */
 
 public class BasketView extends View {
+    private BasketRegion region;
     private int side;
     private static final String TAG = "@vir BasketView";
     private Paint mPaint;
     private Paint supportPaint;
+    private Paint mRedPaint;
     private Path supportPath;
+    private BasketRegionSet mBasketRegionSet = BasketRegionSet.getInstance();
 
     private Path mPath;
 
@@ -56,17 +60,22 @@ public class BasketView extends View {
         super.onDraw(canvas);
         canvas.drawPath(mPath, mPaint);
         canvas.drawPath(supportPath, supportPaint);
+        BasketRegion basketRegion = mBasketRegionSet.getRegions().get(0);
+        drawRegion(canvas,basketRegion,basketRegion.getPaint());
     }
 
     private void init() {
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStyle(Paint.Style.STROKE);
         supportPaint = new Paint(mPaint);
         mPaint.setStrokeWidth(4);
         mPaint.setColor(Color.BLACK);
+        mRedPaint = new Paint(mPaint);
+        mRedPaint.setColor(Color.RED);
+        mRedPaint.setStyle(Paint.Style.FILL);
         supportPaint.setColor(Color.GRAY);
         supportPaint.setStrokeWidth(2);
         mPath = new Path();
@@ -80,7 +89,8 @@ public class BasketView extends View {
         int height = MeasureSpec.getSize(heightMeasureSpec);
         side = width < height ? width : height;
         setMeasuredDimension(side, side);
-
+        mBasketRegionSet.setSide(side);
+        mBasketRegionSet.calRegions();
 
     }
 
@@ -118,8 +128,24 @@ public class BasketView extends View {
         RectF bigRect = new RectF(side/2-r67,y16-r67,side/2+r67,y16+r67);
         mPath.addArc(bigRect,0,180);
 
+        /*Test Below*/
+//        region = new BasketRegion();
+//        Path path = new Path();
+//        float r24 = (float) (side * 24.5 / 150);
+//        RectF rectF = new RectF(side / 2 - r24, -r24, side / 2 + r24, r24);
+//        path.addArc(rectF, 0, 180);
+//        path.moveTo(side/2-r24,0);
+//        path.lineTo(side/2+r24,0);
+//        boolean s =  region.setPath(path, new Region(0, 0, 1000, 1000));
     }
 
+    private void drawRegion(Canvas c, BasketRegion basketRegion,Paint paint) {
+        RegionIterator regionIterator = new RegionIterator(basketRegion);
+        Rect r = new Rect();
+        while (regionIterator.next(r)) {
+            c.drawRect(r,paint);
+        }
+    }
     private int convertDpToPx(int dp) {
         return Math.round(dp * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
 
