@@ -60,7 +60,7 @@ public class BasketView extends View {
         super.onDraw(canvas);
         canvas.drawPath(mPath, mPaint);
         canvas.drawPath(supportPath, supportPaint);
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < mBasketRegionSet.getRegions().size(); i++) {
             BasketRegion basketRegion = mBasketRegionSet.getRegions().get(i);
             drawRegion(canvas, basketRegion, basketRegion.getPaint());
         }
