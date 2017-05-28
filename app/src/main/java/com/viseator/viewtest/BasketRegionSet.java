@@ -4,6 +4,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.os.health.PackageHealthStats;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -77,7 +78,23 @@ public class BasketRegionSet {
         mRegions.add(region);
     }
 
-    private void calRegion3() {
+    private void calRegion3(){
+        Path path = new Path();
+        RectF rectF = new RectF(side/2-r42,y16-r42,side/2+r42,y16+r42);
+        path.moveTo(side/2,y16);
+        path.lineTo((float) (side / 2 + r42 / Math.sqrt(2)), (float) (y16 + r42 / Math.sqrt(2)));
+        path.arcTo(rectF,45,90);
+        path.lineTo(side/2,y16);
+        BasketRegion region = new BasketRegion();
+        region.setPath(path,new Region(0,0,(int)side,(int)side));
+
+        region.op(mRegions.get(0), Region.Op.DIFFERENCE);
+        region.setPaintAlpha(100);
+        mRegions.add(region);
+
+    }
+
+    private void calRegion4() {
         Path path = new Path();
         path.moveTo(side/2,0);
         path.lineTo(side/2+r42,0);
@@ -95,19 +112,8 @@ public class BasketRegionSet {
         mRegions.add(region);
     }
 
-    private void calRegion4(){
+    private void calRegion5() {
         Path path = new Path();
-        RectF rectF = new RectF(side/2-r42,y16-r42,side/2+r42,y16+r42);
-        path.moveTo(side/2,y16);
-        path.lineTo((float) (side / 2 + r42 / Math.sqrt(2)), (float) (y16 + r42 / Math.sqrt(2)));
-        path.arcTo(rectF,45,90);
-        path.lineTo(side/2,y16);
-        BasketRegion region = new BasketRegion();
-        region.setPath(path,new Region(0,0,(int)side,(int)side));
-
-        region.op(mRegions.get(0), Region.Op.DIFFERENCE);
-        region.setPaintAlpha(100);
-        mRegions.add(region);
 
     }
 
