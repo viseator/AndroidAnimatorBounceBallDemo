@@ -46,6 +46,7 @@ public class BasketRegionSet {
         calRegion2();
         calRegion3();
         calRegion4();
+        calRegion5();
     }
 
     private void calRegion1() {
@@ -66,7 +67,8 @@ public class BasketRegionSet {
         Path path = new Path();
         path.moveTo(side/2,0);
         path.lineTo(side/2,y16);
-        path.lineTo((float) (side / 2 - r42 / Math.sqrt(2)), (float) (y16 + r42 / Math.sqrt(2)));
+        path.lineTo((float) (side / 2 - r42 / Math.sin(Math.toRadians(45))),
+                (float) (y16 + r42 / Math.sin(Math.toRadians(45))));
         RectF rectF = new RectF(side/2-r42,y16-r42,side/2+r42,y16+r42);
         path.arcTo(rectF,135,45);
         path.lineTo(side/2-r42,0);
@@ -82,7 +84,8 @@ public class BasketRegionSet {
         Path path = new Path();
         RectF rectF = new RectF(side/2-r42,y16-r42,side/2+r42,y16+r42);
         path.moveTo(side/2,y16);
-        path.lineTo((float) (side / 2 + r42 / Math.sqrt(2)), (float) (y16 + r42 / Math.sqrt(2)));
+        path.lineTo((float) (side / 2 + r42 / Math.sin(Math.toRadians(45))),
+                (float) (y16 + r42 / Math.sin(Math.toRadians(45))));
         path.arcTo(rectF,45,90);
         path.lineTo(side/2,y16);
         BasketRegion region = new BasketRegion();
@@ -101,7 +104,7 @@ public class BasketRegionSet {
         path.lineTo(side/2+r42,y16);
         RectF rectF = new RectF(side/2-r42,y16-r42,side/2+r42,y16+r42);
         path.arcTo(rectF,0,45);
-//        path.lineTo((float) (side / 2 + r42 / Math.sqrt(2)), (float) (y16 + r42 / Math.sqrt(2)));
+//        path.lineTo((float) (side / 2 + r42 / Math.sin(Math.toRadians(45)))), (float) (y16 + r42 / Math.sin(Math.toRadians(45)))));
         path.lineTo(side/2,y16);
         path.lineTo(side/2,0);
         BasketRegion region = new BasketRegion();
@@ -114,7 +117,23 @@ public class BasketRegionSet {
 
     private void calRegion5() {
         Path path = new Path();
+        RectF rectF = new RectF((float)(-side*0.25),(float)(y16-side*0.75),
+                (float)(side*1.25),(float)(y16+side*0.75));
+        path.moveTo(side/2,y16);
+        path.lineTo((float) (side / 2 - side * 0.75 * Math.cos(Math.toRadians(22.5))),
+                (float) (y16 + side * 0.75 * Math.sin(Math.toRadians(22.5))));
+        path.arcTo(rectF,157.5f,22.5f);
+        path.lineTo(0,0);
+        path.lineTo(side/2,0);
+        path.lineTo(side/2,y16);
 
+        BasketRegion region = new BasketRegion();
+        region.setPath(path,new Region(0,0,(int)side,(int)side));
+
+        region.op(mRegions.get(0), Region.Op.DIFFERENCE);
+        region.op(mRegions.get(1), Region.Op.DIFFERENCE);
+        region.setPaintAlpha(80);
+        mRegions.add(region);
     }
 
     public static List<BasketRegion> getRegions() {
