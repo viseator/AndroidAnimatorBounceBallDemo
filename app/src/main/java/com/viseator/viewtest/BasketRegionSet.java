@@ -64,7 +64,7 @@ public class BasketRegionSet {
         path.lineTo(side / 2 + r24, 0);
         boolean s = region.setPath(path, new Region(0, 0, (int) side, (int) side));
         Log.d(TAG, String.valueOf(s));
-        region.setPaintAlpha(30);
+        region.setPaintAlpha(20);
         mRegions.add(region);
     }
 
@@ -81,7 +81,7 @@ public class BasketRegionSet {
         region.setPath(path, new Region(0, 0, (int) side, (int) side));
 
         region.op(mRegions.get(0), Region.Op.DIFFERENCE);
-        region.setPaintAlpha(50);
+        region.setPaintAlpha(70);
         mRegions.add(region);
     }
 
@@ -116,7 +116,7 @@ public class BasketRegionSet {
         region.setPath(path, new Region(0, 0, (int) side, (int) side));
 
         region.op(mRegions.get(0), Region.Op.DIFFERENCE);
-        region.setPaintAlpha(80);
+        region.setPaintAlpha(30);
         mRegions.add(region);
     }
 
@@ -137,7 +137,7 @@ public class BasketRegionSet {
 
         region.op(mRegions.get(0), Region.Op.DIFFERENCE);
         region.op(mRegions.get(1), Region.Op.DIFFERENCE);
-        region.setPaintAlpha(80);
+        region.setPaintAlpha(30);
         mRegions.add(region);
     }
 
@@ -177,7 +177,7 @@ public class BasketRegionSet {
         region.op(mRegions.get(0), Region.Op.DIFFERENCE);
         region.op(mRegions.get(2), Region.Op.DIFFERENCE);
         region.op(new Region(0,(int)(side*95.0/150),(int)(side),(int)(side)), Region.Op.DIFFERENCE);
-        region.setPaintAlpha(60);
+        region.setPaintAlpha(50);
         mRegions.add(region);
 
     }
@@ -198,7 +198,7 @@ public class BasketRegionSet {
         region.op(mRegions.get(2), Region.Op.DIFFERENCE);
         region.op(mRegions.get(3), Region.Op.DIFFERENCE);
         region.op(new Region(0,(int)(side*95.0/150),(int)(side),(int)(side)), Region.Op.DIFFERENCE);
-        region.setPaintAlpha(80);
+        region.setPaintAlpha(60);
         mRegions.add(region);
     }
 
@@ -219,7 +219,7 @@ public class BasketRegionSet {
 
         region.op(mRegions.get(0), Region.Op.DIFFERENCE);
         region.op(mRegions.get(3), Region.Op.DIFFERENCE);
-        region.setPaintAlpha(40);
+        region.setPaintAlpha(10);
         mRegions.add(region);
     }
     public static List<BasketRegion> getRegions() {

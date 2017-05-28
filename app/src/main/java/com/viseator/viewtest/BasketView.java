@@ -59,7 +59,7 @@ public class BasketView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawPath(mPath, mPaint);
-        canvas.drawPath(supportPath, supportPaint);
+//        canvas.drawPath(supportPath, supportPaint);
         for(int i = 0; i < mBasketRegionSet.getRegions().size(); i++) {
             BasketRegion basketRegion = mBasketRegionSet.getRegions().get(i);
             drawRegion(canvas, basketRegion, basketRegion.getPaint());
@@ -130,15 +130,7 @@ public class BasketView extends View {
         RectF bigRect = new RectF(side/2-r67,y16-r67,side/2+r67,y16+r67);
         mPath.addArc(bigRect,0,180);
 
-        /*Test Below*/
-//        region = new BasketRegion();
-//        Path path = new Path();
-//        float r24 = (float) (side * 24.5 / 150);
-//        RectF rectF = new RectF(side / 2 - r24, -r24, side / 2 + r24, r24);
-//        path.addArc(rectF, 0, 180);
-//        path.moveTo(side/2-r24,0);
-//        path.lineTo(side/2+r24,0);
-//        boolean s =  region.setPath(path, new Region(0, 0, 1000, 1000));
+
     }
 
     private void drawRegion(Canvas c, BasketRegion basketRegion,Paint paint) {
