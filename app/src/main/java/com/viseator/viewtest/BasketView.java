@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -22,6 +23,9 @@ public class BasketView extends View {
     private int side;
     private static final String TAG = "@vir BasketView";
     private Paint mPaint;
+    private Paint supportPaint;
+    private Path supportPath;
+
     private Path mPath;
 
     public BasketView(Context context) {
@@ -44,28 +48,29 @@ public class BasketView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mPath.moveTo(0, 0);
-        mPath.lineTo(side, 0);
-        mPath.lineTo(side, side * 140 / 150);
-        mPath.lineTo(0, side * 140 / 150);
-        mPath.lineTo(0, 0);
-
+        drawBgLines();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawPath(mPath, mPaint);
+        canvas.drawPath(supportPath, supportPaint);
     }
 
     private void init() {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(2);
         mPaint.setStyle(Paint.Style.STROKE);
+        supportPaint = new Paint(mPaint);
+        mPaint.setStrokeWidth(4);
         mPaint.setColor(Color.BLACK);
+        supportPaint.setColor(Color.GRAY);
+        supportPaint.setStrokeWidth(2);
         mPath = new Path();
+        supportPath = new Path();
     }
 
     @Override
@@ -76,6 +81,42 @@ public class BasketView extends View {
         side = width < height ? width : height;
         setMeasuredDimension(side, side);
 
+
+    }
+
+    private void drawBgLines() {
+
+        float height = (float) (side * 140 / 150.0);
+        mPath.moveTo(0, 0);
+        mPath.lineTo(side, 0);
+        mPath.lineTo(side, height);
+        mPath.lineTo(0, height);
+        mPath.lineTo(0, 0);
+
+        supportPath.moveTo(side / 2, 0);
+        supportPath.lineTo(side / 2, side);
+
+        float r18 = (float) (18 / 150.0 * side);
+        RectF smallRect = new RectF(side / 2 - r18, height - r18, side / 2 + r18, height + r18);
+        mPath.addArc(smallRect, 180, 180);
+
+        float rectWidth = (float) (49 / 150.0 * side);
+        float rectHeight = (float) (58 / 150.0 * side);
+        RectF mainRect = new RectF(side/2-rectWidth/2,0,side/2+rectWidth/2,rectHeight);
+        mPath.addRect(mainRect, Path.Direction.CW);
+
+        smallRect.set(side/2-r18,rectHeight-r18,side/2+r18,rectHeight+r18);
+        mPath.addArc(smallRect,0,180);
+
+        float y16 = (float) (16/150.0*side);
+        float r67 = (float) (67.28/150*side);
+        mPath.moveTo(side/2-r67,0);
+        mPath.lineTo(side/2-r67,y16);
+        mPath.moveTo(side/2+r67,0);
+        mPath.lineTo(side/2+r67,y16);
+
+        RectF bigRect = new RectF(side/2-r67,y16-r67,side/2+r67,y16+r67);
+        mPath.addArc(bigRect,0,180);
 
     }
 
