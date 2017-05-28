@@ -42,6 +42,7 @@ public class BasketRegionSet {
     }
 
     public void calRegions() {
+        mRegions.clear();
         calRegion1();
         calRegion2();
         calRegion3();
