@@ -49,6 +49,7 @@ public class BasketRegionSet {
         calRegion5();
         calRegion6();
         calRegion7();
+        calRegion8();
     }
 
     private void calRegion1() {
@@ -177,6 +178,26 @@ public class BasketRegionSet {
         region.setPaintAlpha(60);
         mRegions.add(region);
 
+    }
+
+    private void calRegion8() {
+        Path path = new Path();
+        RectF rectF = new RectF((float) (-side * 0.25), (float) (y16 - side * 0.75),
+                (float) (side * 1.25), (float) (y16 + side * 0.75));
+        path.moveTo(side / 2, y16);
+        path.lineTo((float) (side / 2 + side * 0.75 * Math.cos(Math.toRadians(22.5))),
+                (float) (y16 + side * 0.75 * Math.sin(Math.toRadians(22.5))));
+        path.arcTo(rectF, 22.5f, 45f);
+        path.lineTo(side / 2, y16);
+        BasketRegion region = new BasketRegion();
+        region.setPath(path, new Region(0, 0, (int) side, (int) side));
+
+        region.op(mRegions.get(0), Region.Op.DIFFERENCE);
+        region.op(mRegions.get(2), Region.Op.DIFFERENCE);
+        region.op(mRegions.get(3), Region.Op.DIFFERENCE);
+        region.op(new Region(0,(int)(side*95.0/150),(int)(side),(int)(side)), Region.Op.DIFFERENCE);
+        region.setPaintAlpha(80);
+        mRegions.add(region);
     }
     public static List<BasketRegion> getRegions() {
         return mRegions;
