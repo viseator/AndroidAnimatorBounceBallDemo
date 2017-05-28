@@ -20,6 +20,7 @@ public class BasketRegion extends Region {
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setStrokeWidth(4);
         mPaint.setColor(Color.rgb(245,59,59));
+        mPaint.setAlpha(0);
     }
 
     public void setPaintAlpha(int alpha){

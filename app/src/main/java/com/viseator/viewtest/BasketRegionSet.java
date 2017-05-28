@@ -21,6 +21,8 @@ public class BasketRegionSet {
     private static List<BasketRegion> mRegions = new ArrayList<>();
     private static BasketRegionSet instance;
     private float side;
+    float y16;
+    float r42;
 
     private BasketRegionSet() {
     }
@@ -34,10 +36,13 @@ public class BasketRegionSet {
 
     public void setSide(int side) {
         this.side = side;
+        y16 = (float) (16 / 150.0 * side);
+        r42 = (float) (42 / 150.0 * side);
     }
 
-    public void calRegions(){
+    public void calRegions() {
         calRegion1();
+        calRegion2();
     }
 
     private void calRegion1() {
@@ -46,13 +51,29 @@ public class BasketRegionSet {
         float r24 = (float) (side * 24.5 / 150);
         RectF rectF = new RectF(side / 2 - r24, -r24, side / 2 + r24, r24);
         path.addArc(rectF, 0, 180);
-        path.moveTo(side/2-r24,0);
-        path.lineTo(side/2+r24,0);
-        boolean s =  region.setPath(path, new Region(0, 0, (int)side, (int)side));
+        path.moveTo(side / 2 - r24, 0);
+        path.lineTo(side / 2 + r24, 0);
+        boolean s = region.setPath(path, new Region(0, 0, (int) side, (int) side));
         Log.d(TAG, String.valueOf(s));
+        region.setPaintAlpha(30);
         mRegions.add(region);
     }
 
+    private void calRegion2() {
+        Path path = new Path();
+        path.moveTo(side/2,0);
+        path.lineTo(side/2,y16);
+        path.lineTo((float) (side / 2 - r42 / Math.sqrt(2)), (float) (y16 + r42 / Math.sqrt(2)));
+        RectF rectF = new RectF(side/2-r42,y16-r42,side/2+r42,y16+r42);
+        path.arcTo(rectF,135,45);
+        path.lineTo(side/2-r42,0);
+        BasketRegion region = new BasketRegion();
+        region.setPath(path,new Region(0,0,(int)side,(int)side));
+
+        region.op(mRegions.get(0), Region.Op.DIFFERENCE);
+        region.setPaintAlpha(50);
+        mRegions.add(region);
+    }
 
     public static List<BasketRegion> getRegions() {
         return mRegions;
