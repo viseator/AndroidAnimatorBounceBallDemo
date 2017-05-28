@@ -60,7 +60,7 @@ public class BasketView extends View {
         super.onDraw(canvas);
         canvas.drawPath(mPath, mPaint);
 //        canvas.drawPath(supportPath, supportPaint);
-        for(int i = 0; i < mBasketRegionSet.getRegions().size(); i++) {
+        for (int i = 0; i < mBasketRegionSet.getRegions().size(); i++) {
             BasketRegion basketRegion = mBasketRegionSet.getRegions().get(i);
             drawRegion(canvas, basketRegion, basketRegion.getPaint());
         }
@@ -114,32 +114,41 @@ public class BasketView extends View {
 
         float rectWidth = (float) (49 / 150.0 * side);
         float rectHeight = (float) (58 / 150.0 * side);
-        RectF mainRect = new RectF(side/2-rectWidth/2,0,side/2+rectWidth/2,rectHeight);
+        RectF mainRect = new RectF(side / 2 - rectWidth / 2, 0, side / 2 + rectWidth / 2, rectHeight);
         mPath.addRect(mainRect, Path.Direction.CW);
 
-        smallRect.set(side/2-r18,rectHeight-r18,side/2+r18,rectHeight+r18);
-        mPath.addArc(smallRect,0,180);
+        smallRect.set(side / 2 - r18, rectHeight - r18, side / 2 + r18, rectHeight + r18);
+        mPath.addArc(smallRect, 0, 180);
 
-        float y16 = (float) (16/150.0*side);
-        float r67 = (float) (67.28/150*side);
-        mPath.moveTo(side/2-r67,0);
-        mPath.lineTo(side/2-r67,y16);
-        mPath.moveTo(side/2+r67,0);
-        mPath.lineTo(side/2+r67,y16);
+        float y16 = (float) (16 / 150.0 * side);
+        float r67 = (float) (67.28 / 150 * side);
+        mPath.moveTo(side / 2 - r67, 0);
+        mPath.lineTo(side / 2 - r67, y16);
+        mPath.moveTo(side / 2 + r67, 0);
+        mPath.lineTo(side / 2 + r67, y16);
 
-        RectF bigRect = new RectF(side/2-r67,y16-r67,side/2+r67,y16+r67);
-        mPath.addArc(bigRect,0,180);
+        RectF bigRect = new RectF(side / 2 - r67, y16 - r67, side / 2 + r67, y16 + r67);
+        mPath.addArc(bigRect, 0, 180);
 
 
     }
 
-    private void drawRegion(Canvas c, BasketRegion basketRegion,Paint paint) {
+    private void drawRegion(Canvas c, BasketRegion basketRegion, Paint paint) {
         RegionIterator regionIterator = new RegionIterator(basketRegion);
         Rect r = new Rect();
         while (regionIterator.next(r)) {
-            c.drawRect(r,paint);
+            c.drawRect(r, paint);
         }
     }
+
+    public void setAlpha(int pos, int alpha) {
+        mBasketRegionSet.getRegions().get(pos).setPaintAlpha(alpha);
+    }
+
+    public int getAlpha(int pos) {
+        return mBasketRegionSet.getRegions().get(pos).getPaintAlpha();
+    }
+
     private int convertDpToPx(int dp) {
         return Math.round(dp * (getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
 

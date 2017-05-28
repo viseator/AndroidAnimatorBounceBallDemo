@@ -27,6 +27,10 @@ public class BasketRegion extends Region {
         mPaint.setAlpha((int) (alpha / 100f * 255));
     }
 
+    public int getPaintAlpha() {
+        return (int) (mPaint.getAlpha() / 255f * 100f);
+    }
+
     public Paint getPaint() {
         return mPaint;
     }
